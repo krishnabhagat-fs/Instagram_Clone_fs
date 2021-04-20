@@ -5,6 +5,8 @@ const mongoose = require('mongoose')
 const {MONGOURI} = require('./keys')
 require('./model/user')
 //mongoose.model('User')
+app.use(express.json())
+app.use(require('./router/auth'))
 
 mongoose.connect(MONGOURI,{
     useNewUrlParser: true,
