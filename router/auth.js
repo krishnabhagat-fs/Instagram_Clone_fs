@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 const User = mongoose.model("User")
 const bcrypt = require('bcryptjs');
 const { Router } = require('express');
+const jwt = require('jsonwebtoken')
+const {SECRET_KEY} = require('../keys')
 
 route.get('/',(req,res)=>
 {
@@ -59,8 +61,10 @@ route.post('/signin',(req,res)=>
             return res.status(404).json({error:"Invalid email or password"})
             bcrypt.compare(password,saveduser.password)
             .then(domatch=>{
-                if(domatch)
-                res.json({sucefull:"You are logged in"})
+                if(domatch){
+                    const token = jwt.sign({id:saveduser._id},SECRET_KEY)
+                    res.json({token})
+                }
                 else
                 res.status(404).json({error:"Invalid email or passward"})
             }).catch(err=>
