@@ -3,11 +3,12 @@ const route = express.Router();
 const mongoose = require('mongoose')
 const User = mongoose.model("User")
 const bcrypt = require('bcryptjs');
-const { Router } = require('express');
+const { Router } = require('express')
 const jwt = require('jsonwebtoken')
 const {SECRET_KEY} = require('../keys')
+const requirelogin = require('../middleware/requirelogin')
 
-route.get('/',(req,res)=>
+route.get('/protected',requirelogin,(req,res)=>
 {
     res.send("Hello")
 })
@@ -62,7 +63,7 @@ route.post('/signin',(req,res)=>
             bcrypt.compare(password,saveduser.password)
             .then(domatch=>{
                 if(domatch){
-                    const token = jwt.sign({id:saveduser._id},SECRET_KEY)
+                    const token = jwt.sign({_id:saveduser._id},SECRET_KEY)
                     res.json({token})
                 }
                 else
