@@ -4,6 +4,13 @@ const mongoose = require('mongoose')
 const requireloginmid = require('../middleware/requirelogin')
 const Post = mongoose.model('Post')
 
+route.get('/allpost',(req,res)=>
+{
+    Post.find().populate("postedBy","_id name").then(posts=>{
+        res.json({posts})
+    })
+})
+
 route.post('/createpost',requireloginmid,(req,res)=>
 {
     const {title,body} = req.body
