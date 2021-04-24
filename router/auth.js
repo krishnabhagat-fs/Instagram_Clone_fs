@@ -13,7 +13,7 @@ route.get('/protected',requirelogin,(req,res)=>
     res.send("Hello")
 })
 
-route.post('/about',(req,res)=>
+route.post('/signup',(req,res)=>
 {
     //console.log(req.body);
     const {name,email,password} = req.body
