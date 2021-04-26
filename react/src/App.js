@@ -3,8 +3,8 @@ import NavBar from './components/nav'
 import "./App.css"
 import {BrowserRouter,Route} from 'react-router-dom' 
 import Home from './components/screen/home'
-import Login from './components/screen/login'
-import Sigin from './components/screen/signup'
+import Signin from './components/screen/signin'
+import Signup from './components/screen/signup'
 import Profile from './components/screen/profile'
 
 function App() {
@@ -14,11 +14,11 @@ function App() {
     <Route exact path="/">
       <Home/>
     </Route>
-    <Route path="/login">
-      <Login/>
+    <Route path="/signin">
+      <Signin/>
     </Route>
     <Route path="/signup">
-      <Sigin/>
+      <Signup/>
     </Route>
     <Route path="/profile">
       <Profile/>
