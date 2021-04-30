@@ -29,3 +29,14 @@ a
 .item{
   width: 30%;
 }
+.home{
+
+}
+.home-card{
+  max-width: 600px;
+  margin: 15px auto;
+}
+.heart-red
+{
+  color: tomato;
+}
