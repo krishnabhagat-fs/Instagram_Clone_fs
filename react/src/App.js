@@ -6,6 +6,7 @@ import Home from './components/screen/home'
 import Signin from './components/screen/signin'
 import Signup from './components/screen/signup'
 import Profile from './components/screen/profile'
+import Create_post from './components/screen/createpost'
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
     </Route>
     <Route path="/profile">
       <Profile/>
+    </Route>
+    <Route path="/create_post">
+      <Create_post/>
     </Route>
     </BrowserRouter>
   );

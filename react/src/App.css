@@ -40,3 +40,10 @@ a
 {
   color: tomato;
 }
+.cr_post_card
+{
+  max-width: 500px;
+  margin: 45px auto;
+  padding: 20px;
+  text-align: center;
+}
