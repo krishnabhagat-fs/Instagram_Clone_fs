@@ -15,15 +15,15 @@ route.get('/protected',requirelogin,(req,res)=>
 
 route.post('/signup',(req,res)=>
 {
-    //console.log(req.body);
+   // console.log(req.body);
     const {name,email,password} = req.body
     if(!name || !email || !password)
-    return res.status(404).json({"Error":"Please fill all the fields"})
+    return res.json({error:"Please fill all the fields"})
     User.findOne({email:email})
     .then((savedUser)=>
     {
         if(savedUser)
-        return res.status(404).json({"Error":"User already exist"})
+        return res.status(422).json({error:"User already exist"})
         bcrypt.hash(password,12)
         .then((hashedpassword)=>
         {
@@ -52,25 +52,27 @@ route.post('/signup',(req,res)=>
 
 route.post('/signin',(req,res)=>
 {
+    console.log(req.body);
     const {name,email,password} = req.body
     if(!email || !password)
-    return res.status(404).json({error:"please enter email and password"})
+    return res.status(422).json({error:"please enter email and password"})
     User.findOne({email:email})
     .then(saveduser=>
         {
             if(!saveduser)
-            return res.status(404).json({error:"Invalid email or password"})
+            return res.status(422).json({error:"Invalid email or password"})
             bcrypt.compare(password,saveduser.password)
             .then(domatch=>{
                 if(domatch){
                     const token = jwt.sign({_id:saveduser._id},SECRET_KEY)
-                    res.json({token})
+                    const {_id,name,email} = saveduser
+                    res.json({token,user:{_id,name,email}})
                 }
                 else
-                res.status(404).json({error:"Invalid email or passward"})
+                res.status(422).json({error:"Invalid email or passward"})
             }).catch(err=>
                 {
-                    console.log(err);
+                    console.log(err); 
                 })
         }).catch(err=>
             {

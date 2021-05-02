@@ -4,6 +4,11 @@ const mongoose = require('mongoose')
 const requireloginmid = require('../middleware/requirelogin')
 const Post = mongoose.model('Post')
 
+route.get('/test',(req,res)=>
+{
+    res.send("hello this is test")
+    console.log("hello world");
+})
 route.post('/mypost',requireloginmid,(req,res)=>
 {
     //console.log(req.user._id);

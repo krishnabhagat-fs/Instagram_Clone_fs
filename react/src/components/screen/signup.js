@@ -34,7 +34,11 @@ const Signup = ()=>
             M.toast({html: data.message})
             history.push('/signin')
             }
-        })
+        }).catch(err=>
+            {
+                console.log(err);
+                console.log("error appeared above");
+            })
         
     }
 
