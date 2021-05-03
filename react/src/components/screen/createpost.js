@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import {Link, useHistory} from 'react-router-dom'
 import M from 'materialize-css'
 
@@ -10,6 +10,37 @@ const Create_post = ()=>
   const [body,setBody] =useState("")
   const [image,setImage] =useState("")
   const [url,setUrl] =useState("")
+  useEffect(()=>
+  {
+    if(url)
+    {
+      fetch("http://localhost:5000/createpost",{
+        method:"post",
+        headers:{
+            "Content-Type":"application/json",
+            "Authorization":"Bearer "+localStorage.getItem("jwt")
+        },
+        body:JSON.stringify({
+            title,
+            body,
+            photo:url
+        })
+    }).then(res=>res.json())
+    .then(data=>{
+        //M.toast({html: 'I am a toast!'})
+        console.log(data);
+        if(data.error)
+        {
+           return M.toast({html: data.error})
+        }
+        else{
+        M.toast({html: "Created post sucesfully"})
+        history.push('/')
+        }
+    })
+    }
+
+  },[url])
   const postdetails = ()=>
   {
     const data = new FormData()
@@ -26,29 +57,7 @@ const Create_post = ()=>
     }).catch(err=>{
       console.log(err);
     })
-    fetch("http://localhost:5000/createpost",{
-      method:"post",
-      headers:{
-          "Content-Type":"application/json"
-      },
-      body:JSON.stringify({
-          title,
-          body,
-          photo:url
-      })
-  }).then(res=>res.json())
-  .then(data=>{
-      //M.toast({html: 'I am a toast!'})
-      console.log(data);
-      if(data.error)
-      {
-         return M.toast({html: data.error})
-      }
-      else{
-      M.toast({html: "Created post sucesfully"})
-      history.push('/')
-      }
-  })
+
   }
     return(
         <div>

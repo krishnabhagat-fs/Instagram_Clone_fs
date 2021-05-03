@@ -52,7 +52,7 @@ route.post('/signup',(req,res)=>
 
 route.post('/signin',(req,res)=>
 {
-    console.log(req.body);
+    //console.log(req.body);
     const {name,email,password} = req.body
     if(!email || !password)
     return res.status(422).json({error:"please enter email and password"})

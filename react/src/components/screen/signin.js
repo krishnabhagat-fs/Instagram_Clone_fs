@@ -32,6 +32,9 @@ const Signin = ()=>
                return M.toast({html: data.error})
             }
             else{
+                localStorage.setItem("jwt",data.token)
+                
+                localStorage.setItem("user",JSON.stringify(data.user))
             M.toast({html: "signedin sucess"})
             history.push('/')
             }

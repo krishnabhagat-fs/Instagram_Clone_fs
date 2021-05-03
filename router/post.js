@@ -30,15 +30,17 @@ route.get('/allpost',(req,res)=>
 
 route.post('/createpost',requireloginmid,(req,res)=>
 {
-    const {title,body,pic} = req.body
-    if(!title || !body || !pic)
+
+    const {title,body,photo} = req.body
+    console.log(title,body,photo)
+    if(!title || !body || !photo)
     return res.status(422).json({error:"Please enter all the fields"})
     //res.send("OK")
     req.user.password = undefined
     const post = new Post({
        title,
         body,
-        pic,
+        photo,
         postedBy:req.user
     })
     post.save()
