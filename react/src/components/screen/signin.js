@@ -1,9 +1,10 @@
-import React,{useState} from 'react'
+import React,{useState,useContext} from 'react'
 import {Link, useHistory} from 'react-router-dom'
 import M from 'materialize-css'
-
+import {Usercontex} from '../../App'
 const Signin = ()=>
 {
+    const {state,dispatch} = useContext(Usercontex)
     const history = useHistory()
 
     const [password,setPassword] = useState("")
@@ -26,14 +27,13 @@ const Signin = ()=>
         }).then(res=>res.json())
         .then(data=>{
             //M.toast({html: 'I am a toast!'})
-            console.log(data);
             if(data.error)
             {
                return M.toast({html: data.error})
             }
             else{
                 localStorage.setItem("jwt",data.token)
-                
+                dispatch({type:"USER",payload:data.user})
                 localStorage.setItem("user",JSON.stringify(data.user))
             M.toast({html: "signedin sucess"})
             history.push('/')
