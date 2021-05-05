@@ -1,9 +1,10 @@
 import React, {useContext} from 'react'
-import {Link} from 'react-router-dom'
+import {Link,useHistory} from 'react-router-dom'
 import {Usercontex} from '../App'
 const NavBar = ()=>
 {
   const {state,dispatch} = useContext(Usercontex)
+  const history = useHistory()
 
   const renderList = ()=>
   {
@@ -11,7 +12,13 @@ const NavBar = ()=>
     {
       return [
         <li><Link to="/profile">Profile</Link></li>,
-        <li><Link to="/create_post">Create Post</Link></li>
+        <li><Link to="/create_post">Create Post</Link></li>,
+        <li><button className="btn waves-effect waves-light #d32f2f red darken-2" onClick={()=>{
+          localStorage.clear()
+          dispatch({type:"CLEAR"})
+          history.push('/signin')
+        }
+        }>Log out</button></li>
       ]
     }
     else{
