@@ -4,11 +4,11 @@ const mongoose = require('mongoose')
 const requireloginmid = require('../middleware/requirelogin')
 const Post = mongoose.model('Post')
 
-route.get('/test',(req,res)=>
-{
-    res.send("hello this is test")
-    console.log("hello world");
-})
+//route.get('/test',(req,res)=>
+//{
+//  res.send("hello this is test")
+//  console.log("hello world");
+//})
 route.post('/mypost',requireloginmid,(req,res)=>
 {
     //console.log(req.user._id);
@@ -21,10 +21,15 @@ route.post('/mypost',requireloginmid,(req,res)=>
     })
 })
 
-route.get('/allpost',(req,res)=>
+route.get('/allpost',requireloginmid,(req,res)=>
 {
-    Post.find().populate("postedBy","_id name").then(posts=>{
+    Post.find()
+    .populate("postedBy","_id name")
+    .then(posts=>{
         res.json({posts})
+    })
+    .catch(err=>{
+        console.log(err);
     })
 })
 
