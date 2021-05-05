@@ -11,7 +11,7 @@ const Post = mongoose.model('Post')
 //})
 route.post('/mypost',requireloginmid,(req,res)=>
 {
-    //console.log(req.user._id);
+    console.log(req.body);
     Post.find({postedBy:req.user._id})
     .populate("postedBy","_id name")
     .then(posts=>{
