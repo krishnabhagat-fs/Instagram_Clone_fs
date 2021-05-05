@@ -59,5 +59,35 @@ route.post('/createpost',requireloginmid,(req,res)=>
                 console.log(err)
             })
 })
+route.put('/like',requireloginmid,(req,res)=>
+{
+    Post.findByIdAndUpdate(req.body.postID,{
+        $push:{likes:req.user._id}
+    },{
+        new:true
+    }).exec((err,result)=>
+    {
+        if(err)
+        return res.status(422).json({error:err})
+        else
+        res.json(result)
+    })
+
+})
+route.put('/unlike',requireloginmid,(req,res)=>
+{
+    Post.findByIdAndUpdate(req.body.postID,{
+        $pop:{likes:req.user._id}
+    },{
+        new:true
+    }).exec((err,result)=>
+    {
+        if(err)
+        return res.status(422).json({error:err})
+        else
+        res.json(result)
+    })
+
+})
 
 module.exports = route
