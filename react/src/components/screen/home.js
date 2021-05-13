@@ -17,6 +17,42 @@ const Home = ()=>
             setdata(result.posts)
         })
     },[])
+
+    const makeComments = (text,postId)=>
+    {
+        fetch('/comments',{
+            method:"put",
+            headers:{
+                "Content-Type": "application/json",
+                "Authorization":"Bearer "+localStorage.getItem("jwt")
+            },
+            body:JSON.stringify({
+                postId,
+                text
+            })
+        }).then(res=>res.json())
+        .then(result=>{
+            //console.log(result);
+            const newData = data.map(item=>
+                {
+                    if(item._id == result._id)
+                    {
+                        return result
+                    }
+                    else
+                    {
+                        return item
+                    }
+                }
+                )
+                setdata(newData)
+        }).catch(err=>
+            {
+                console.log(err);
+            })
+    }
+
+
     const likePost = (id)=>
     {
         fetch('/like',{
@@ -111,14 +147,25 @@ const Home = ()=>
                        likePost(item._id);
                     }}
                     >favorite_border</i>
-                    }
-
-                    
-                    
+                    }                   
                         <h6>{item.likes.length}</h6>
                         <h6>{item.title}</h6>
                         <p>{item.body}</p>  
-                        <input/>              
+                        {
+                            item.comments.map(record=>{
+                                return(
+                                    <h6 key={record._id}><span>{record.postedBy.name} </span>{record.text}</h6>
+                                )
+                            })
+                        }
+                        <form onSubmit={(e)=>
+                        {
+                           e.preventDefault()
+                           makeComments(e.target[0].value,item._id)
+                        }}>
+                        <input/>       
+                        </form>
+                              
                     </div>
                 </div>
                 )
