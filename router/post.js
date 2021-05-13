@@ -61,7 +61,7 @@ route.post('/createpost',requireloginmid,(req,res)=>
 })
 route.put('/like',requireloginmid,(req,res)=>
 {
-    Post.findByIdAndUpdate(req.body.postID,{
+    Post.findByIdAndUpdate(req.body.postId,{
         $push:{likes:req.user._id}
     },{
         new:true
@@ -76,8 +76,8 @@ route.put('/like',requireloginmid,(req,res)=>
 })
 route.put('/unlike',requireloginmid,(req,res)=>
 {
-    Post.findByIdAndUpdate(req.body.postID,{
-        $pop:{likes:req.user._id}
+    Post.findByIdAndUpdate(req.body.postId,{
+        $pull:{likes:req.user._id}
     },{
         new:true
     }).exec((err,result)=>
