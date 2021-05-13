@@ -90,4 +90,26 @@ route.put('/unlike',requireloginmid,(req,res)=>
 
 })
 
+route.put('/comments',requireloginmid,(req,res)=>
+{
+    const comment = {
+        text:req.body.text,
+        postedBy:req.user._id
+    }
+    Post.findByIdAndUpdate(req.body.postId,{
+        $pull:{comments:comment}
+    },{
+        new:true
+    })
+    .populate("comments.postedBy","_id name")
+    .exec((err,result)=>
+    {
+        if(err)
+        return res.status(422).json({error:err})
+        else
+        res.json(result)
+    })
+
+})
+
 module.exports = route
