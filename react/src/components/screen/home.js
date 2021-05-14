@@ -123,14 +123,39 @@ const Home = ()=>
                 console.log(err);
             })
     
-    }
+        }
+
+        const deletePost = (postId)=>
+        {
+            fetch(`/deletePost/${postId}`,{
+                method:"delete",
+                headers:{
+                    Authorization:"Bearer "+localStorage.getItem("jwt")
+                }
+            }).then(res=>res.json())
+            .then(result=>{
+                console.log(result)
+                const newData = data.filter(item=>{
+                    return item._id !== result._id
+                })
+                setdata(newData)
+            })
+        }
+
+
+
     return(
     <div className="home">
         {
             data.map(item=>{
                 return(
                     <div className="card home-card" key={item._id}>
-                    <h5>{item.postedBy.name}</h5>
+                    <h5>{item.postedBy.name}
+                    {item.postedBy._id == state._id && <i style={{float:'right'}} className="material-icons" 
+                    onClick={()=>deletePost(item._id)}
+                    >delete</i>
+                    
+                    }</h5>
                     <div className="card-image">
                     <img src={item.photo}/>
                     </div>
