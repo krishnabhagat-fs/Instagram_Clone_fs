@@ -28,6 +28,7 @@ app.use(cors())
 app.use(express.json())
 app.use(require('./router/auth'))
 app.use(require('./router/post'))
+app.use(require('./router/user'))
 
 
 app.listen(PORT,()=>
